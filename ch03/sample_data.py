@@ -45,9 +45,7 @@ def generate_sample_data(rows, cols, freq='1min'):
                  np.random.standard_normal((rows, cols)), axis=0))
     # normalize the data to start at 100
     raw = raw / raw[0] * 100
-    # generate the DataFrame object
-    df = pd.DataFrame(raw, index=index, columns=columns)
-    return df
+    return pd.DataFrame(raw, index=index, columns=columns)
 
 
 if __name__ == '__main__':

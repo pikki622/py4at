@@ -31,7 +31,7 @@ while True:
         min_length += 1
         dr['momentum'] = np.sign(dr['returns'].rolling(mom).mean())
         print('\n' + '=' * 51)
-        print('NEW SIGNAL | {}'.format(datetime.datetime.now()))
+        print(f'NEW SIGNAL | {datetime.datetime.now()}')
         print('=' * 51)
         print(dr.iloc[:-1].tail())
         if dr['momentum'].iloc[-2] == 1.0:

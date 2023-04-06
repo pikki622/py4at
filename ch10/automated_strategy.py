@@ -85,7 +85,7 @@ class MLTrader(tpqoa.tpqoa):
         ''' Prints, logs and sends trade data.
         '''
         out = '\n\n' + 80 * '=' + '\n'
-        out += '*** GOING {} *** \n'.format(pos) + '\n'
+        out += f'*** GOING {pos} *** \n' + '\n'
         out += str(order) + '\n'
         out += 80 * '=' + '\n'
         logger_monitor(out)
@@ -100,8 +100,12 @@ class MLTrader(tpqoa.tpqoa):
             self.bar, label='right').last().ffill()
         self.data = self.data.iloc[:-1]
         if len(self.data) > self.min_length:
-            logger_monitor('NUMBER OF TICKS: {} | '.format(self.ticks) +
-                           'NUMBER OF BARS: {}'.format(self.min_length))
+            logger_monitor(
+                (
+                    f'NUMBER OF TICKS: {self.ticks} | '
+                    + f'NUMBER OF BARS: {self.min_length}'
+                )
+            )
             self.min_length += 1
             self.data['mid'] = (self.data['bid'] + self.data['ask']) / 2
             self.prepare_features()

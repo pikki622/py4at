@@ -44,14 +44,18 @@ class BacktestLongShort(BacktestBase):
         self.data['SMA2'] = self.data['price'].rolling(SMA2).mean()
 
         for bar in range(SMA2, len(self.data)):
-            if self.position in [0, -1]:
-                if self.data['SMA1'].iloc[bar] > self.data['SMA2'].iloc[bar]:
-                    self.go_long(bar, amount='all')
-                    self.position = 1  # long position
-            if self.position in [0, 1]:
-                if self.data['SMA1'].iloc[bar] < self.data['SMA2'].iloc[bar]:
-                    self.go_short(bar, amount='all')
-                    self.position = -1  # short position
+            if (
+                self.position in [0, -1]
+                and self.data['SMA1'].iloc[bar] > self.data['SMA2'].iloc[bar]
+            ):
+                self.go_long(bar, amount='all')
+                self.position = 1  # long position
+            if (
+                self.position in [0, 1]
+                and self.data['SMA1'].iloc[bar] < self.data['SMA2'].iloc[bar]
+            ):
+                self.go_short(bar, amount='all')
+                self.position = -1  # short position
         self.close_out(bar)
 
     def run_momentum_strategy(self, momentum):
@@ -65,14 +69,12 @@ class BacktestLongShort(BacktestBase):
         self.amount = self.initial_amount  # reset initial capital
         self.data['momentum'] = self.data['return'].rolling(momentum).mean()
         for bar in range(momentum, len(self.data)):
-            if self.position in [0, -1]:
-                if self.data['momentum'].iloc[bar] > 0:
-                    self.go_long(bar, amount='all')
-                    self.position = 1  # long position
-            if self.position in [0, 1]:
-                if self.data['momentum'].iloc[bar] <= 0:
-                    self.go_short(bar, amount='all')
-                    self.position = -1  # short position
+            if self.position in [0, -1] and self.data['momentum'].iloc[bar] > 0:
+                self.go_long(bar, amount='all')
+                self.position = 1  # long position
+            if self.position in [0, 1] and self.data['momentum'].iloc[bar] <= 0:
+                self.go_short(bar, amount='all')
+                self.position = -1  # short position
         self.close_out(bar)
 
     def run_mean_reversion_strategy(self, SMA, threshold):

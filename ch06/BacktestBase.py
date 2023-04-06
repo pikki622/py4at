@@ -146,7 +146,7 @@ class BacktestBase(object):
         perf = ((self.amount - self.initial_amount) /
                 self.initial_amount * 100)
         print('Net Performance [%] {:.2f}'.format(perf))
-        print('Trades Executed [#] {}'.format(self.trades))
+        print(f'Trades Executed [#] {self.trades}')
         print('=' * 55)
 
 

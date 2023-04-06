@@ -87,7 +87,7 @@ class ScikitVectorBacktester(object):
         self.data_subset = self.select_data(start, end)
         self.feature_columns = []
         for lag in range(1, self.lags + 1):
-            col = 'lag_{}'.format(lag)
+            col = f'lag_{lag}'
             self.data_subset[col] = self.data_subset['returns'].shift(lag)
             self.feature_columns.append(col)
         self.data_subset.dropna(inplace=True)
